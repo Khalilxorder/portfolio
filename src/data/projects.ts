@@ -46,10 +46,10 @@ export const projects: Project[] = [
     id: 'live-site-gamma',
     title: 'Working Memory Test',
     description: 'An interactive memory test application to measure and improve working memory capacity.',
-    image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fwww.workingmemorytest.com/opengraph/_7yf',
+    image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fw-mtest.vercel.app/opengraph/_7yf',
     tags: ['Brain Training', 'Interactive', 'Test'],
     year: '2024',
     type: 'live-site',
-    liveUrl: 'https://www.workingmemorytest.com',
+    liveUrl: 'https://w-mtest.vercel.app/',
   },
 ];
