@@ -169,10 +169,10 @@ export function AllProjectsView({ projects, onProjectClick, onBackClick }: AllPr
             </div>
             <div className="flex items-center space-x-6">
               <a
-                href="mailto:khalil@example.com"
+                href="mailto:contact@khalilsabha.tech"
                 className="text-muted-foreground hover:text-primary text-sm transition-colors"
               >
-                khalil@example.com
+                contact@khalilsabha.tech
               </a>
               <a
                 href="https://linkedin.com/in/khalilsabha"
