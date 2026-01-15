@@ -36,6 +36,28 @@ export const projects: Project[] = [
     liveUrl: 'https://w-mtest.vercel.app/',
   },
 
+  // Secondary Priority Live Sites
+  {
+    id: 'live-site-scholarship',
+    title: 'Scholarship Search',
+    description: 'AI-powered scholarship discovery platform that helps students find and prioritize relevant scholarships across multiple countries.',
+    image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fscholarship-search.vercel.app/opengraph/_7yf',
+    tags: ['AI', 'Education', 'Full-Stack'],
+    year: '2024',
+    type: 'live-site',
+    liveUrl: 'https://scholarship-search.vercel.app/',
+  },
+  {
+    id: 'live-site-deconstructor',
+    title: 'Deconstructor',
+    description: 'A modern web application built with cutting-edge frontend technologies.',
+    image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Ffrontend-psi-three-13.vercel.app/opengraph/_7yf',
+    tags: ['Frontend', 'Web App', 'Modern UI'],
+    year: '2024',
+    type: 'live-site',
+    liveUrl: 'https://frontend-psi-three-13.vercel.app/',
+  },
+
   // UX Case Studies
   {
     id: 'your-food-now',
