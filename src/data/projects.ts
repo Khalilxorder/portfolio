@@ -9,7 +9,7 @@ export const projects: Project[] = [
     id: 'live-site-alpha',
     title: 'Apartment Website',
     description: 'Student apartment website deployed on Vercel.',
-    image: 'https://image.thum.io/get/width/1280/https://student-apartment-seven.vercel.app/',
+    image: 'https://api.microlink.io/?url=https://student-apartment-seven.vercel.app&screenshot=true&meta=false&embed=screenshot.url',
     tags: ['Vercel', 'Web', 'Responsive'],
     year: '2024',
     type: 'live-site',
