@@ -7,7 +7,7 @@ import { AllProjectsView } from './components/AllProjectsView';
 import { ProfileDrawer } from './components/ProfileDrawer';
 import { ProjectModal } from './components/ProjectModal';
 import { projects } from './data/projects';
-import { Project } from './components/ProjectCard';
+import { Project, ProjectCard } from './components/ProjectCard';
 
 type SectionType = 'home' | 'all-projects' | 'ux-case-studies' | 'ui-projects' | 'live-sites';
 
@@ -81,7 +81,32 @@ export default function App() {
         {/* Main Content */}
         <main>
           {activeSection === 'home' && (
-            <HeroSection onSectionChange={handleSectionChange} />
+            <>
+              <HeroSection onSectionChange={handleSectionChange} />
+
+              {/* Live Projects Section on Homepage */}
+              {liveSites.length > 0 && (
+                <section className="py-16 bg-background">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mb-10">
+                      <h2 className="text-3xl font-bold text-foreground mb-3">Live Projects</h2>
+                      <p className="text-muted-foreground max-w-2xl">
+                        Production applications and websites built with modern technologies.
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {liveSites.map((project) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          onClick={() => handleProjectClick(project)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+            </>
           )}
 
           {activeSection === 'all-projects' && (
