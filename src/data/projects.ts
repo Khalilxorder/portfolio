@@ -4,24 +4,7 @@ import yourFoodNowOverview from '../assets/2802360e9ae82f2cfecfddeada2be449634b0
 import yourFoodNowProblemGoal from '../assets/cf837c61cff070050a7af29e84f94905d6896d69.png';
 
 export const projects: Project[] = [
-  // UX Case Studies
-  {
-    id: 'your-food-now',
-    title: 'YOUR FOOD NOW - Food Ordering App',
-    description: 'Designing a simplified food ordering app for mothers in the Middle East, matching the diverse needs of their children with an easy-to-use interface and consistent delivery pricing.',
-    image: yourFoodNowCover,
-    tags: ['UX Research', 'Mobile App', 'Food Tech', 'User-Centered Design'],
-    year: '2024',
-    type: 'case-study',
-    galleryImages: [
-      yourFoodNowCover,
-      yourFoodNowOverview,
-      yourFoodNowProblemGoal,
-      // Additional 13 images will be added here
-    ],
-  },
-
-  // Live Sites
+  // Live Sites (prioritized first)
   {
     id: 'live-site-alpha',
     title: 'Apartment Website',
@@ -51,5 +34,22 @@ export const projects: Project[] = [
     year: '2024',
     type: 'live-site',
     liveUrl: 'https://w-mtest.vercel.app/',
+  },
+
+  // UX Case Studies
+  {
+    id: 'your-food-now',
+    title: 'YOUR FOOD NOW - Food Ordering App',
+    description: 'Designing a simplified food ordering app for mothers in the Middle East, matching the diverse needs of their children with an easy-to-use interface and consistent delivery pricing.',
+    image: yourFoodNowCover,
+    tags: ['UX Research', 'Mobile App', 'Food Tech', 'User-Centered Design'],
+    year: '2024',
+    type: 'case-study',
+    galleryImages: [
+      yourFoodNowCover,
+      yourFoodNowOverview,
+      yourFoodNowProblemGoal,
+      // Additional 13 images will be added here
+    ],
   },
 ];

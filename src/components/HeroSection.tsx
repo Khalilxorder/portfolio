@@ -42,6 +42,12 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
 
   const sectionCards = [
     {
+      id: 'live-sites',
+      title: 'Live Sites',
+      description: 'Production applications and websites built with modern technologies.',
+      count: '3+ Projects'
+    },
+    {
       id: 'ux-case-studies',
       title: 'UX Case Studies',
       description: 'Deep-dive into user research, design process, and problem-solving methodologies.',
@@ -52,12 +58,6 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
       title: 'UI Projects',
       description: 'Visual design explorations, interface components, and design system work.',
       count: '5 Projects'
-    },
-    {
-      id: 'live-sites',
-      title: 'Live Sites',
-      description: 'Production applications and websites built with modern technologies.',
-      count: '3+ Projects'
     },
   ];
 

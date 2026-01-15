@@ -146,13 +146,20 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
   }
 
   if (project.type === 'live-site') {
+    const handleCardClick = () => {
+      if (project.liveUrl) {
+        window.open(project.liveUrl, '_blank');
+      }
+    };
+
     return (
       <motion.div
         variants={cardVariants}
         whileHover={{ scale: 1.02 }}
-        className="rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10"
+        className="rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
+        onClick={handleCardClick}
       >
-        <div className="aspect-video overflow-hidden cursor-pointer bg-muted" onClick={onClick}>
+        <div className="aspect-video overflow-hidden bg-muted">
           <ImageWithFallback
             src={project.image}
             alt={project.title}
