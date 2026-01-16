@@ -8,6 +8,8 @@ import { ProfileDrawer } from './components/ProfileDrawer';
 import { ProjectModal } from './components/ProjectModal';
 import { projects } from './data/projects';
 import { Project, ProjectCard } from './components/ProjectCard';
+import SplashScreen from './components/animations/SplashScreen';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type SectionType = 'home' | 'all-projects' | 'ux-case-studies' | 'ui-projects' | 'live-sites';
 
@@ -16,6 +18,7 @@ export default function App() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   // Filter projects by type
   const caseStudies = projects.filter(p => p.type === 'case-study');
@@ -70,7 +73,18 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen">
+      <AnimatePresence>
+        {showSplash && (
+          <SplashScreen onComplete={() => setShowSplash(false)} />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showSplash ? 0 : 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="min-h-screen"
+      >
         {/* Navigation */}
         <Navigation
           activeSection={activeSection}
@@ -209,7 +223,7 @@ export default function App() {
             </div>
           </footer>
         )}
-      </div>
+      </motion.div>
     </ThemeProvider>
   );
 }
