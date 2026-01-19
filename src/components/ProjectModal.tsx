@@ -17,42 +17,42 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   useTheme(); // Keep for consistency
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Mock additional images for gallery view
+  const galleryImages = project ? [
+    project.image,
+    "https://images.unsplash.com/photo-1551650992-ee4fd47df41f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcHAlMjBpbnRlcmZhY2UlMjBkZXNpZ258ZW58MXx8fHwxNzU4MzI1MDI1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1564424555153-04228f0aa7ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHAlMjB3aXJlZnJhbWVzfGVufDF8fHx8MTc1ODQzMzcwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1575388902449-6bca946ad549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkYXNoYm9hcmQlMjBkZXNpZ258ZW58MXx8fHwxNzU4NDMzNzA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+  ] : [];
+
+  const nextImage = () => {
+    if (!project) return;
+    if (project.type === 'ui-project') {
+      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+    } else if (project.type === 'case-study' && project.galleryImages) {
+      setCurrentImageIndex((prev) => (prev + 1) % project.galleryImages!.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (!project) return;
+    if (project.type === 'ui-project') {
+      setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    } else if (project.type === 'case-study' && project.galleryImages) {
+      setCurrentImageIndex((prev) => (prev - 1 + project.galleryImages!.length) % project.galleryImages!.length);
+    }
+  };
+
   // Reset image index when project changes or modal opens
   useEffect(() => {
     setCurrentImageIndex(0);
   }, [project?.id, isOpen]);
 
-  if (!project) return null;
-
-  // Mock additional images for gallery view
-  const galleryImages = [
-    project.image,
-    "https://images.unsplash.com/photo-1551650992-ee4fd47df41f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcHAlMjBpbnRlcmZhY2UlMjBkZXNpZ258ZW58MXx8fHwxNzU4MzI1MDI1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1564424555153-04228f0aa7ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHAlMjB3aXJlZnJhbWVzfGVufDF8fHx8MTc1ODQzMzcwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1575388902449-6bca946ad549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkYXNoYm9hcmQlMjBkZXNpZ258ZW58MXx8fHwxNzU4NDMzNzA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-  ];
-
-  const nextImage = () => {
-    if (project.type === 'ui-project') {
-      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
-    } else if (project.type === 'case-study' && project.galleryImages) {
-      setCurrentImageIndex((prev) => (prev + 1) % project.galleryImages.length);
-    }
-  };
-
-  const prevImage = () => {
-    if (project.type === 'ui-project') {
-      setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-    } else if (project.type === 'case-study' && project.galleryImages) {
-      setCurrentImageIndex((prev) => (prev - 1 + project.galleryImages.length) % project.galleryImages.length);
-    }
-  };
-
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!isOpen) return;
-      
+      if (!isOpen || !project) return;
+
       if (e.key === 'ArrowLeft') {
         prevImage();
       } else if (e.key === 'ArrowRight') {
@@ -63,6 +63,9 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isOpen, currentImageIndex, project]);
+
+  // Early return AFTER all hooks
+  if (!project) return null;
 
   if (project.type === 'ui-project') {
     return (
@@ -97,7 +100,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 decoding="async"
                 style={{ imageRendering: '-webkit-optimize-contrast' }}
               />
-              
+
               {/* Navigation Arrows */}
               {galleryImages.length > 1 && (
                 <>
@@ -128,11 +131,10 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
-                  className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all bg-muted ${
-                    currentImageIndex === index
+                  className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all bg-muted ${currentImageIndex === index
                       ? 'border-primary'
                       : 'border-transparent opacity-60 hover:opacity-100'
-                  }`}
+                    }`}
                 >
                   <ImageWithFallback
                     src={image}
@@ -185,7 +187,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                   decoding="async"
                   style={{ imageRendering: '-webkit-optimize-contrast' }}
                 />
-                
+
                 {/* Navigation Arrows */}
                 {project.galleryImages.length > 1 && (
                   <>
@@ -216,11 +218,10 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all bg-muted ${
-                      currentImageIndex === index
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all bg-muted ${currentImageIndex === index
                         ? 'border-primary'
                         : 'border-transparent opacity-60 hover:opacity-100'
-                    }`}
+                      }`}
                   >
                     <ImageWithFallback
                       src={image}
@@ -287,7 +288,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                   Project Overview
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
-                  {project.description} This case study explores the design process from initial user research 
+                  {project.description} This case study explores the design process from initial user research
                   through final implementation, showcasing the methodologies and insights that drove the design decisions.
                 </p>
               </div>
@@ -327,33 +328,33 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
             {/* Process Steps */}
             <div className="space-y-6">
               <h3 className="text-lg font-medium text-foreground">Design Process</h3>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-medium mb-2 text-foreground">1. Research & Discovery</h4>
                   <p className="text-sm text-muted-foreground">
-                    Conducted user interviews, competitive analysis, and stakeholder workshops to understand 
+                    Conducted user interviews, competitive analysis, and stakeholder workshops to understand
                     the problem space and identify key user needs.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-medium mb-2 text-foreground">2. Define & Ideate</h4>
                   <p className="text-sm text-muted-foreground">
-                    Created user personas, journey maps, and defined the core problem statement. 
+                    Created user personas, journey maps, and defined the core problem statement.
                     Facilitated ideation sessions to explore potential solutions.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-medium mb-2 text-foreground">3. Design & Prototype</h4>
                   <p className="text-sm text-muted-foreground">
-                    Developed wireframes, high-fidelity mockups, and interactive prototypes. 
+                    Developed wireframes, high-fidelity mockups, and interactive prototypes.
                     Iterated based on feedback and usability testing results.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-medium mb-2 text-foreground">4. Test & Iterate</h4>
                   <p className="text-sm text-muted-foreground">
-                    Conducted usability tests with target users, gathered feedback, and refined 
+                    Conducted usability tests with target users, gathered feedback, and refined
                     the design based on insights and performance metrics.
                   </p>
                 </div>

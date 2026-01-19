@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { Button } from './ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { ChevronDown, ArrowRight } from 'lucide-react';
+import { ChevronDown, ArrowRight, Cpu, Activity, Terminal as TerminalIcon, ShieldCheck } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { NeuralBackground } from './NeuralBackground';
+import { MatrixText } from './MatrixText';
 import profileImageLight from '../assets/1ac236e9226f9c05a21400fd39173611d03582ca.png';
 import profileImageDark from '../assets/hero-dark.jpg';
 
@@ -11,70 +13,65 @@ interface HeroSectionProps {
   onSectionChange: (section: string) => void;
 }
 
-// Animated floating particles component
-function FloatingParticles() {
+// System Diagnostic HUD Element
+function SystemHUD() {
+  const [metrics, setMetrics] = useState({ cpu: 45, mem: 32, load: 1.2 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMetrics({
+        cpu: Math.floor(Math.random() * 20) + 40,
+        mem: Math.floor(Math.random() * 10) + 30,
+        load: parseFloat((Math.random() * 0.5 + 1.0).toFixed(2))
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full bg-primary/20"
-          initial={{
-            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
-          }}
-          animate={{
-            x: [null, Math.random() * 100 - 50 + '%'],
-            y: [null, Math.random() * 100 - 50 + '%'],
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 8 + Math.random() * 4,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            ease: 'easeInOut',
-            delay: Math.random() * 2,
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-        />
-      ))}
+    <div className="absolute top-24 right-8 hidden xl:flex flex-col gap-4 z-20 pointer-events-none">
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="terminal-bg p-4 rounded-lg flex flex-col gap-2 min-w-[200px]"
+      >
+        <div className="flex items-center gap-2 text-primary">
+          <Cpu className="w-4 h-4" />
+          <span className="text-xs font-bold terminal-text">KERNEL STATUS: ONLINE</span>
+        </div>
+        <div className="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-primary"
+            animate={{ width: `${metrics.cpu}%` }}
+          />
+        </div>
+        <div className="flex justify-between text-[10px] text-muted-foreground terminal-text">
+          <span>PROC_LOAD: {metrics.cpu}%</span>
+          <span>MEM_ALLOC: {metrics.mem}%</span>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2 }}
+        className="terminal-bg p-4 rounded-lg flex flex-col gap-2"
+      >
+        <div className="flex items-center gap-2 text-secondary">
+          <Activity className="w-4 h-4" />
+          <span className="text-xs font-bold terminal-text">NEURAL_ENGINE: ACTIVE</span>
+        </div>
+        <div className="text-[10px] text-muted-foreground terminal-text overflow-hidden h-12">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="whitespace-nowrap">
+              {Math.random().toString(16).toUpperCase()}
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
-
-// Text reveal animation variants
-const textRevealContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const textRevealChild = {
-  hidden: {
-    opacity: 0,
-    y: 50,
-    rotateX: -90,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transition: {
-      type: 'spring',
-      damping: 12,
-      stiffness: 100,
-    },
-  },
-};
 
 // Magnetic button component
 function MagneticButton({ children, onClick, className, variant = 'default' }: {
@@ -117,9 +114,10 @@ function MagneticButton({ children, onClick, className, variant = 'default' }: {
       className={`${className} ${variant === 'outline'
           ? 'border border-border text-muted-foreground hover:bg-secondary/20 hover:text-foreground hover:border-secondary'
           : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25'
-        } inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 transition-all duration-300`}
+        } inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 transition-all duration-300 relative group overflow-hidden`}
     >
-      {children}
+      <span className="relative z-10 flex items-center">{children}</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
     </motion.button>
   );
 }
@@ -179,58 +177,34 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
   const sectionCards = [
     {
       id: 'live-sites',
-      title: 'Live Sites',
-      description: 'Production applications and websites built with modern technologies.',
-      count: '5+ Projects'
+      title: 'AI Deployments',
+      description: 'Production-ready AI agents and high-performance web systems.',
+      count: '5+ Systems',
+      icon: <TerminalIcon className="w-5 h-5" />
     },
     {
       id: 'ux-case-studies',
-      title: 'UX Case Studies',
-      description: 'Deep-dive into user research, design process, and problem-solving methodologies.',
-      count: '3 Projects'
+      title: 'Neural UX',
+      description: 'Designing intuitive interfaces for complex machine learning models.',
+      count: '3 Projects',
+      icon: <Cpu className="w-5 h-5" />
     },
     {
       id: 'ui-projects',
-      title: 'UI Projects',
-      description: 'Visual design explorations, interface components, and design system work.',
-      count: '5 Projects'
+      title: 'Synthetic UI',
+      description: 'Visual systems that bridge human intent with computer logic.',
+      count: '5 Projects',
+      icon: <ShieldCheck className="w-5 h-5" />
     },
   ];
 
-  const titleWords = ['Creating', 'intuitive'];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted transition-colors duration-500 relative overflow-hidden">
-      {/* Animated Background Particles */}
-      <FloatingParticles />
+    <div className="min-h-screen bg-background transition-colors duration-500 relative overflow-hidden scanlines">
+      {/* Neural Background - The Core visual */}
+      <NeuralBackground />
 
-      {/* Animated gradient orbs */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          x: [0, -30, 0],
-          y: [0, -50, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
+      {/* System HUD Overlay */}
+      <SystemHUD />
 
       {/* Hero Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 relative z-10">
@@ -243,47 +217,28 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
             className="space-y-8"
           >
             <div className="space-y-6">
-              {/* Animated Title with Word-by-Word Reveal */}
-              <motion.h1
-                variants={textRevealContainer}
-                initial="hidden"
-                animate="visible"
-                className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground"
-                style={{ perspective: 1000 }}
-              >
-                <div className="overflow-hidden">
-                  {titleWords.map((word, i) => (
-                    <motion.span
-                      key={i}
-                      variants={textRevealChild}
-                      className="inline-block mr-4"
-                      style={{ transformOrigin: 'bottom' }}
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </div>
-                {/* Gradient text with shimmer effect */}
-                <motion.span
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6, type: 'spring' }}
-                  className="block relative overflow-hidden"
-                >
-                  <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-gradient-x">
-                    digital experiences
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-px w-8 bg-primary" />
+                <span className="text-xs font-bold text-primary terminal-text tracking-widest">SYSTEM_INITIALIZED: V2.5.0</span>
+              </div>
+
+              <motion.h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground">
+                <MatrixText text="Architecting" className="block" />
+                <span className="block mt-2 relative">
+                  <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-gradient-x font-bold">
+                    intelligent systems
                   </span>
-                </motion.span>
+                </span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="text-lg leading-relaxed max-w-lg text-muted-foreground"
+                className="text-lg leading-relaxed max-w-lg text-muted-foreground terminal-text"
               >
-                UI/UX Designer & Front-end Developer focused on user-centered design
-                and bringing ideas to life through code.
+                Engineer & Designer building the next generation of AI-driven products.
+                Merging performance with precision design.
               </motion.p>
             </div>
 
@@ -295,11 +250,11 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
               className="flex flex-wrap gap-4"
             >
               <MagneticButton onClick={() => onSectionChange('all-projects')}>
-                View All Projects
+                Execute Protocol
                 <ArrowRight className="w-4 h-4 ml-2" />
               </MagneticButton>
-              <MagneticButton variant="outline">
-                Download Resume
+              <MagneticButton variant="outline" className="terminal-text">
+                System_Resume.pdf
               </MagneticButton>
             </motion.div>
           </motion.div>
@@ -320,25 +275,21 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
                 rotateY: springRotateY,
                 transformStyle: 'preserve-3d',
               }}
-              animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
               className="relative"
             >
-              {/* Glowing backdrop */}
+              {/* Spinning tech rings */}
               <motion.div
-                className="absolute inset-0 rounded-full blur-3xl bg-gradient-to-br from-primary to-secondary"
-                animate={{
-                  opacity: [0.3, 0.5, 0.3],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-[-40px] border border-dashed border-primary/20 rounded-full"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-[-60px] border border-dotted border-secondary/20 rounded-full"
               />
 
-              <Avatar className="relative w-80 h-80 shadow-2xl overflow-hidden bg-card ring-4 ring-primary/20">
+              <Avatar className="relative w-80 h-80 shadow-2xl overflow-hidden bg-card ring-1 ring-primary/40 hover-glitch">
                 {/* Light Mode Image */}
                 <AvatarImage
                   src={profileImageLight}
@@ -354,7 +305,6 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
                   style={{ transform: 'scale(1.05) translateY(2%)' }}
                 />
 
-                {/* Theme Transition Flash */}
                 <AnimatePresence>
                   {isFlashing && (
                     <motion.div
@@ -366,8 +316,7 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
                     />
                   )}
                 </AnimatePresence>
-
-                <AvatarFallback className="text-6xl">KS</AvatarFallback>
+                <AvatarFallback className="text-6xl terminal-text">KS</AvatarFallback>
               </Avatar>
             </motion.div>
           </motion.div>
@@ -385,16 +334,8 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
             transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
             className="flex flex-col items-center space-y-2"
           >
-            <span className="text-sm text-muted-foreground">Scroll to explore</span>
-            <motion.div
-              animate={{
-                boxShadow: ['0 0 0 0 rgba(251, 191, 36, 0)', '0 0 20px 10px rgba(251, 191, 36, 0.3)', '0 0 0 0 rgba(251, 191, 36, 0)']
-              }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="rounded-full p-1"
-            >
-              <ChevronDown className="w-5 h-5 text-primary" />
-            </motion.div>
+            <span className="text-[10px] terminal-text text-primary tracking-widest animate-pulse">SCROLL_FOR_INTEL</span>
+            <ChevronDown className="w-5 h-5 text-primary" />
           </motion.div>
         </motion.div>
       </div>
@@ -411,36 +352,35 @@ export function HeroSection({ onSectionChange }: HeroSectionProps) {
               whileHover={{
                 scale: 1.03,
                 y: -5,
-                boxShadow: '0 20px 40px -10px rgba(251, 191, 36, 0.2)'
+                borderColor: 'var(--primary)'
               }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onSectionChange(card.id)}
-              className="group p-8 rounded-2xl text-left transition-colors duration-300 bg-card/80 backdrop-blur-sm border border-border hover:border-primary/50"
+              className="group p-8 rounded-2xl text-left transition-all duration-300 bg-black/40 backdrop-blur-md border border-white/5 hover:border-primary/50 relative overflow-hidden"
             >
-              <motion.div
-                className="space-y-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 + (index * 0.15) }}
-              >
+              {/* Hover sweep effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              <div className="relative z-10 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-medium text-card-foreground">
+                  <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                    {card.icon}
+                  </div>
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 text-primary opacity-50 group-hover:opacity-100" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-card-foreground terminal-text uppercase tracking-tight">
                     {card.title}
                   </h3>
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    transition={{ type: 'spring', stiffness: 400 }}
-                  >
-                    <ArrowRight className="w-5 h-5 text-primary" />
-                  </motion.div>
+                  <div className="h-0.5 w-8 bg-primary/30 mt-1 transition-all group-hover:w-full" />
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="text-sm leading-relaxed text-muted-foreground terminal-text opacity-80">
                   {card.description}
                 </p>
-                <div className="text-xs font-medium text-primary">
+                <div className="text-[10px] font-bold text-primary terminal-text tracking-tighter">
                   {card.count}
                 </div>
-              </motion.div>
+              </div>
             </motion.button>
           ))}
         </div>
