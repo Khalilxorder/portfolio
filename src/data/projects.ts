@@ -1,25 +1,28 @@
 import yourFoodNowCover from '../assets/ba43e88e09ac6aff01142c7d0523560a2d8c83d8.png';
+import exploreCover from '../assets/project-shots/explore-cover.svg';
 
 export interface Project {
   id: string;
   title: string;
   description: string;
-  image?: string;
+  image: string;
   year: string;
-  url?: string;
+  url: string;
 }
 
 export const projects: Project[] = [
   {
     id: 'explore',
     title: 'eXplore',
-    description: 'An Android-first priority radar for important AI releases and Iran/Qatar alerts, built around focused notifications and a readable feed.',
+    description: 'Priority alerts and a focused feed for important AI releases and Iran/Qatar developments.',
+    image: exploreCover,
     year: '2026',
+    url: 'https://drive.google.com/file/d/13UjPc3w_g16dc4H9oA_agPB3lgiH1XJp',
   },
   {
     id: 'scholarship-search',
     title: 'Scholarship Search Engine',
-    description: 'A focused search experience for discovering scholarships, comparing fit, and moving quickly from broad eligibility to useful results.',
+    description: 'A focused search workspace for discovering scholarships and comparing fit quickly.',
     image: 'https://image.thum.io/get/width/1280/https://scholarship-search.vercel.app/',
     year: '2024',
     url: 'https://scholarship-search.vercel.app/',
@@ -27,7 +30,7 @@ export const projects: Project[] = [
   {
     id: 'big-five-assessment',
     title: 'Big Five AI Assessment',
-    description: 'A personality assessment tool that turns psychometric inputs into readable trait summaries and visual feedback.',
+    description: 'A personality assessment with rich visual framing and readable trait feedback.',
     image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fmy-bigfive-app.vercel.app/opengraph/_7yf',
     year: '2024',
     url: 'https://my-bigfive-app.vercel.app/',
@@ -35,7 +38,7 @@ export const projects: Project[] = [
   {
     id: 'student-apartment',
     title: 'Student Apartment',
-    description: 'A property browsing and management interface for student housing, designed around fast scanning and clear availability states.',
+    description: 'A student housing search interface built around chat, filters, and availability.',
     image: 'https://api.microlink.io/?url=https://student-apartment-seven.vercel.app&screenshot=true&meta=false&embed=screenshot.url',
     year: '2024',
     url: 'https://student-apartment-seven.vercel.app/',
@@ -43,7 +46,7 @@ export const projects: Project[] = [
   {
     id: 'working-memory-test',
     title: 'Neural Memory Test',
-    description: 'An interactive working-memory test with a lightweight interface for repeated trials, scoring, and cognitive performance feedback.',
+    description: 'A working-memory test with direct controls, scoring, and repeatable trials.',
     image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fw-mtest.vercel.app/opengraph/_7yf',
     year: '2024',
     url: 'https://w-mtest.vercel.app/',
@@ -51,7 +54,7 @@ export const projects: Project[] = [
   {
     id: 'binary-deconstructor',
     title: 'Binary Deconstructor',
-    description: 'A technical interface for parsing complex inputs and presenting structure in a way that is easier to inspect and reason about.',
+    description: 'An audio deconstruction tool with upload flow, AI extraction, and dark visual depth.',
     image: 'https://image.thum.io/get/width/1280/https://frontend-psi-three-13.vercel.app/',
     year: '2024',
     url: 'https://frontend-psi-three-13.vercel.app/',
@@ -59,7 +62,7 @@ export const projects: Project[] = [
   {
     id: 'your-food-now',
     title: 'Your Food Now',
-    description: 'A delivery flow centered on decision speed, order confidence, and reducing friction from browse to checkout.',
+    description: 'A delivery flow centered on decision speed, order confidence, and reduced friction.',
     image: yourFoodNowCover,
     year: '2024',
     url: yourFoodNowCover,
