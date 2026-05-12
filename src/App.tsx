@@ -14,8 +14,8 @@ function ProjectImage({ project }: { project: Project }) {
         <img
           src={project.image}
           alt=""
-          loading="lazy"
-          decoding="async"
+          loading="eager"
+          decoding="sync"
           onError={handleError}
         />
       )}
@@ -31,8 +31,7 @@ function ProjectImage({ project }: { project: Project }) {
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const style = { '--index': index } as React.CSSProperties;
+function ProjectCard({ project }: { project: Project }) {
   const content = (
     <>
       <ProjectImage project={project} />
@@ -46,14 +45,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     </>
   );
 
-  if (!project.url) {
-    return (
-      <article className="project-card project-card-static" style={style}>
-        {content}
-      </article>
-    );
-  }
-
   return (
     <a
       className="project-card"
@@ -61,7 +52,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       target="_blank"
       rel="noreferrer"
       aria-label={`Open ${project.title}`}
-      style={style}
     >
       {content}
     </a>
@@ -78,8 +68,8 @@ export default function App() {
 
       <div className="projects-page">
         <section id="projects" className="projects-grid" aria-label="Projects">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </section>
       </div>
