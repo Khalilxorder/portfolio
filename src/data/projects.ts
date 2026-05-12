@@ -1,86 +1,86 @@
-import { Project } from '../components/ProjectCard';
 import yourFoodNowCover from '../assets/ba43e88e09ac6aff01142c7d0523560a2d8c83d8.png';
-import yourFoodNowOverview from '../assets/2802360e9ae82f2cfecfddeada2be449634b025e.png';
-import yourFoodNowProblemGoal from '../assets/cf837c61cff070050a7af29e84f94905d6896d69.png';
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  year: string;
+  kind: 'Live product' | 'UX case study';
+  status: string;
+  liveUrl?: string;
+  detailUrl?: string;
+  repoUrl?: string;
+}
 
 export const projects: Project[] = [
-  // Live Sites (prioritized first)
   {
-    id: 'live-site-scholarship',
+    id: 'scholarship-search',
     title: 'Scholarship Search Engine',
-    description: 'Advanced AI-powered scholarship discovery platform with cognitive ranking and student profiling.',
+    description: 'A focused search experience for discovering scholarships, comparing fit, and moving quickly from broad eligibility to useful results.',
     image: 'https://image.thum.io/get/width/1280/https://scholarship-search.vercel.app/',
-    tags: ['AI/Neural Search', 'Cognitive Ranking', 'Full-Stack'],
+    tags: ['Search', 'Ranking', 'Full-stack'],
     year: '2024',
-    type: 'live-site',
+    kind: 'Live product',
+    status: 'Live',
     liveUrl: 'https://scholarship-search.vercel.app/',
-    complexity: 92,
-    aiFeature: 'Neural matching of user profiles to 10k+ scholarship data points.'
   },
   {
-    id: 'live-site-beta',
+    id: 'big-five-assessment',
     title: 'Big Five AI Assessment',
-    description: 'Psychometric evaluation system using ML-driven normalization for personality trait analysis.',
+    description: 'A personality assessment tool that turns psychometric inputs into readable trait summaries and visual feedback.',
     image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fmy-bigfive-app.vercel.app/opengraph/_7yf',
-    tags: ['ML Normalization', 'Psychometrics', 'Data Visualization'],
-    year: '2023',
-    type: 'live-site',
-    liveUrl: 'https://my-bigfive-app.vercel.app',
-    complexity: 85,
-    aiFeature: 'Algorithmic scoring and population-wide percentile benchmarking.'
+    tags: ['Assessment', 'Data visualization', 'React'],
+    year: '2024',
+    kind: 'Live product',
+    status: 'Live',
+    liveUrl: 'https://my-bigfive-app.vercel.app/',
+    repoUrl: 'https://github.com/Khalilxorder/bigfive',
   },
   {
-    id: 'live-site-alpha',
-    title: 'Smart Apartment System',
-    description: 'High-performance property management interface with real-time state synchronization.',
+    id: 'student-apartment',
+    title: 'Student Apartment',
+    description: 'A property browsing and management interface for student housing, designed around fast scanning and clear availability states.',
     image: 'https://api.microlink.io/?url=https://student-apartment-seven.vercel.app&screenshot=true&meta=false&embed=screenshot.url',
-    tags: ['Real-time Sync', 'Scalable Arch', 'Vercel Edge'],
+    tags: ['Housing', 'Filters', 'Vercel'],
     year: '2024',
-    type: 'live-site',
+    kind: 'Live product',
+    status: 'Live',
     liveUrl: 'https://student-apartment-seven.vercel.app/',
-    complexity: 78,
-    aiFeature: 'Intelligent search filters and automated availability tracking.'
+    repoUrl: 'https://github.com/Khalilxorder/StudentApartment',
   },
   {
-    id: 'live-site-gamma',
+    id: 'working-memory-test',
     title: 'Neural Memory Test',
-    description: 'Cognitive load analysis application designed to measure and optimize human working memory.',
+    description: 'An interactive working-memory test with a lightweight interface for repeated trials, scoring, and cognitive performance feedback.',
     image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fw-mtest.vercel.app/opengraph/_7yf',
-    tags: ['Cognitive Analysis', 'Interactive', 'WASM'],
+    tags: ['Cognitive testing', 'Interaction', 'Metrics'],
     year: '2024',
-    type: 'live-site',
+    kind: 'Live product',
+    status: 'Live',
     liveUrl: 'https://w-mtest.vercel.app/',
-    complexity: 82,
-    aiFeature: 'Dynamic difficulty scaling based on real-time performance metrics.'
   },
   {
-    id: 'live-site-deconstructor',
+    id: 'binary-deconstructor',
     title: 'Binary Deconstructor',
-    description: 'Complex data parsing engine and visualization suite for high-level technical auditing.',
+    description: 'A technical interface for parsing complex inputs and presenting structure in a way that is easier to inspect and reason about.',
     image: 'https://image.thum.io/get/width/1280/https://frontend-psi-three-13.vercel.app/',
-    tags: ['Data Parsing', 'Modern Web', 'Performance'],
+    tags: ['Parsing', 'Inspection', 'Performance'],
     year: '2024',
-    type: 'live-site',
+    kind: 'Live product',
+    status: 'Live',
     liveUrl: 'https://frontend-psi-three-13.vercel.app/',
-    complexity: 80,
-    aiFeature: 'Automated structure identification in unstructured data sets.'
   },
-
-  // UX Case Studies
   {
     id: 'your-food-now',
-    title: 'Synthetic UX: Food Intelligence',
-    description: 'Designing high-frequency delivery systems using predictive analytics for logistics optimization.',
+    title: 'Your Food Now',
+    description: 'A UX case study for a delivery flow, centered on decision speed, order confidence, and reducing friction from browse to checkout.',
     image: yourFoodNowCover,
-    tags: ['UX Intelligence', 'Predictive UX', 'Logistics'],
+    tags: ['UX research', 'Mobile flow', 'Prototype'],
     year: '2024',
-    type: 'case-study',
-    complexity: 88,
-    aiFeature: 'Intent-prediction algorithms integrated into the user flow to minimize friction.',
-    galleryImages: [
-      yourFoodNowCover,
-      yourFoodNowOverview,
-      yourFoodNowProblemGoal,
-    ],
+    kind: 'UX case study',
+    status: 'Study',
+    detailUrl: yourFoodNowCover,
   },
 ];
