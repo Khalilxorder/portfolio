@@ -1,6 +1,6 @@
 import React from 'react';
-import { ArrowUpRight, ExternalLink, Github } from 'lucide-react';
 import { projects, type Project } from './data/projects';
+import profilePhoto from './assets/1ac236e9226f9c05a21400fd39173611d03582ca.png';
 
 function ProjectImage({ project }: { project: Project }) {
   const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -9,106 +9,80 @@ function ProjectImage({ project }: { project: Project }) {
   };
 
   return (
-    <div className="project-media" aria-label={`${project.title} preview`}>
-      <img
-        src={project.image}
-        alt=""
-        loading="eager"
-        decoding="async"
-        onError={handleError}
-      />
+    <div className={`project-media${project.image ? '' : ' is-fallback'}`} aria-hidden="true">
+      {project.image && (
+        <img
+          src={project.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={handleError}
+        />
+      )}
       <div className="project-media-fallback">
-        <span>{project.title}</span>
+        <div className="preview-shell">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
-      <div className="project-kind">{project.kind}</div>
-    </div>
-  );
-}
-
-function ProjectActions({ project }: { project: Project }) {
-  const primaryUrl = project.liveUrl ?? project.detailUrl;
-  const primaryLabel = project.liveUrl ? 'Open project' : 'View study';
-
-  return (
-    <div className="project-actions" aria-label={`${project.title} links`}>
-      {primaryUrl && (
-        <a
-          className="project-link project-link-primary"
-          href={primaryUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${primaryLabel}: ${project.title}`}
-        >
-          <ExternalLink aria-hidden="true" />
-          <span>{primaryLabel}</span>
-        </a>
-      )}
-      {project.repoUrl && (
-        <a
-          className="project-link"
-          href={project.repoUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`Open source for ${project.title}`}
-        >
-          <Github aria-hidden="true" />
-          <span>Source</span>
-        </a>
-      )}
     </div>
   );
 }
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-  return (
-    <article className="project-card" style={{ '--index': index } as React.CSSProperties}>
+  const style = { '--index': index } as React.CSSProperties;
+  const content = (
+    <>
       <ProjectImage project={project} />
       <div className="project-body">
-        <div className="project-topline">
-          <span>{project.year}</span>
-          <span>{project.status}</span>
+        <div className="project-heading">
+          <h2>{project.title}</h2>
+          <time dateTime={project.year}>{project.year}</time>
         </div>
-        <h2>{project.title}</h2>
         <p>{project.description}</p>
-        <div className="project-tags" aria-label={`${project.title} technologies`}>
-          {project.tags.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-        <ProjectActions project={project} />
       </div>
-    </article>
+    </>
+  );
+
+  if (!project.url) {
+    return (
+      <article className="project-card project-card-static" style={style}>
+        {content}
+      </article>
+    );
+  }
+
+  return (
+    <a
+      className="project-card"
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Open ${project.title}`}
+      style={style}
+    >
+      {content}
+    </a>
   );
 }
 
 export default function App() {
   return (
-    <div className="portfolio-shell">
-      <header className="site-header" aria-label="Portfolio header">
-        <a className="wordmark" href="#projects" aria-label="Khalil Sabha projects">
-          Khalil Sabha
-        </a>
-        <div className="header-meta">
-          <span>{projects.length} projects</span>
-          <ArrowUpRight aria-hidden="true" />
-        </div>
-      </header>
+    <main className="portfolio-shell">
+      <section className="identity" aria-label="Khalil Sabha">
+        <img src={profilePhoto} alt="" />
+        <h1>Khalil Sabha</h1>
+      </section>
 
-      <main className="projects-page">
-        <section className="intro" aria-labelledby="portfolio-title">
-          <p className="eyebrow">Selected work</p>
-          <h1 id="portfolio-title">Projects.</h1>
-          <p className="intro-copy">
-            Essential product, UX, and engineering work, presented with clear previews and direct links.
-          </p>
-        </section>
-
+      <div className="projects-page">
         <section id="projects" className="projects-grid" aria-label="Projects">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </section>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
