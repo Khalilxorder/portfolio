@@ -1,245 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { Navigation } from './components/Navigation';
-import { HeroSection } from './components/HeroSection';
-import { ProjectSection } from './components/ProjectSection';
-import { AllProjectsView } from './components/AllProjectsView';
-import { ProfileDrawer } from './components/ProfileDrawer';
-import { ProjectModal } from './components/ProjectModal';
-import { AIConsole } from './components/AIConsole';
-import { SectionTransition } from './components/SectionTransition';
-import { projects } from './data/projects';
-import { Project, ProjectCard } from './components/ProjectCard';
-import SplashScreen from './components/animations/SplashScreen';
-import { AnalogGlitch } from './components/animations/AnalogGlitch';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { projects, type Project } from './data/projects';
+import profilePhoto from './assets/1ac236e9226f9c05a21400fd39173611d03582ca.png';
 
-type SectionType = 'home' | 'all-projects' | 'ux-case-studies' | 'ui-projects' | 'live-sites';
-
-export default function App() {
-  const [activeSection, setActiveSection] = useState<SectionType>('home');
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Filter projects by type
-  const caseStudies = projects.filter(p => p.type === 'case-study');
-  const uiProjects = projects.filter(p => p.type === 'ui-project');
-  const liveSites = projects.filter(p => p.type === 'live-site');
-
-  const handleSectionChange = (section: string) => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveSection(section as SectionType);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      setTimeout(() => setIsTransitioning(false), 400);
-    }, 500);
+function ProjectImage({ project }: { project: Project }) {
+  const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    event.currentTarget.style.display = 'none';
+    event.currentTarget.parentElement?.classList.add('is-fallback');
   };
-
-  const handleProfileClick = () => {
-    setIsProfileOpen(true);
-  };
-
-  const handleProjectClick = (project: Project) => {
-    setSelectedProject(project);
-    setIsProjectModalOpen(true);
-  };
-
-  const handleBackToHome = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActiveSection('home');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      setTimeout(() => setIsTransitioning(false), 400);
-    }, 500);
-  };
-
-  // Close modals on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsProfileOpen(false);
-        setIsProjectModalOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
-
-  // Prevent body scroll when modals are open
-  useEffect(() => {
-    if (isProfileOpen || isProjectModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isProfileOpen, isProjectModalOpen]);
 
   return (
-    <ThemeProvider>
-      <SectionTransition isTransitioning={isTransitioning} />
-      <AnimatePresence>
-        {showSplash && (
-          <SplashScreen onComplete={() => setShowSplash(false)} />
-        )}
-      </AnimatePresence>
+    <div className={`project-media${project.image ? '' : ' is-fallback'}`} aria-hidden="true">
+      {project.image && (
+        <img
+          src={project.image}
+          alt=""
+          loading="eager"
+          decoding="sync"
+          onError={handleError}
+        />
+      )}
+      <div className="project-media-fallback">
+        <div className="preview-shell">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-      <AnalogGlitch>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showSplash ? 0 : 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="min-h-screen"
-        >
-          {/* Navigation */}
-          <Navigation
-            activeSection={activeSection}
-            onSectionChange={handleSectionChange}
-            onProfileClick={handleProfileClick}
-          />
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <a
+      className="project-card"
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Open ${project.title}`}
+    >
+      <ProjectImage project={project} />
+      <div className="project-body">
+        <div className="project-heading">
+          <h2>{project.title}</h2>
+          <time dateTime={project.year}>{project.year}</time>
+        </div>
+        <p>{project.description}</p>
+      </div>
+    </a>
+  );
+}
 
-          {/* Main Content */}
-          <main>
-            {activeSection === 'home' && (
-              <>
-                <HeroSection onSectionChange={handleSectionChange} />
+export default function App() {
+  return (
+    <main className="portfolio-shell">
+      <section className="identity" aria-label="Khalil Sabha">
+        <img src={profilePhoto} alt="" />
+        <h1>Khalil Sabha</h1>
+      </section>
 
-                {/* Live Projects Section on Homepage */}
-                {liveSites.length > 0 && (
-                  <section className="py-16 bg-background">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <div className="mb-10">
-                        <h2 className="text-3xl font-bold text-foreground mb-3">Live Projects</h2>
-                        <p className="text-muted-foreground max-w-2xl">
-                          Production applications and websites built with modern technologies.
-                        </p>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {liveSites.map((project) => (
-                          <ProjectCard
-                            key={project.id}
-                            project={project}
-                            onClick={() => handleProjectClick(project)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-                )}
-              </>
-            )}
-
-            {activeSection === 'all-projects' && (
-              <AllProjectsView
-                projects={projects}
-                onProjectClick={handleProjectClick}
-                onBackClick={handleBackToHome}
-              />
-            )}
-
-            {activeSection === 'ux-case-studies' && (
-              <ProjectSection
-                title="UX Case Studies"
-                description="Deep-dive into user research, design process, and problem-solving methodologies. Each case study showcases the complete design journey from initial research to final implementation and results."
-                projects={caseStudies}
-                sectionId="ux-case-studies"
-                onProjectClick={handleProjectClick}
-                onBackClick={handleBackToHome}
-              />
-            )}
-
-            {activeSection === 'ui-projects' && (
-              <ProjectSection
-                title="UI Projects"
-                description="Visual design explorations, interface components, and design system work. A collection of UI designs showcasing creativity, attention to detail, and modern design principles."
-                projects={uiProjects}
-                sectionId="ui-projects"
-                onProjectClick={handleProjectClick}
-                onBackClick={handleBackToHome}
-              />
-            )}
-
-            {activeSection === 'live-sites' && (
-              <ProjectSection
-                title="Live Sites & Projects"
-                description="Production applications and websites built with modern technologies. These projects demonstrate the ability to transform designs into fully functional, scalable web applications."
-                projects={liveSites}
-                sectionId="live-sites"
-                onProjectClick={handleProjectClick}
-                onBackClick={handleBackToHome}
-              />
-            )}
-          </main>
-
-          {/* Profile Drawer */}
-          <ProfileDrawer
-            isOpen={isProfileOpen}
-            onClose={() => setIsProfileOpen(false)}
-          />
-
-          {/* Project Modal */}
-          <ProjectModal
-            project={selectedProject}
-            isOpen={isProjectModalOpen}
-            onClose={() => {
-              setIsProjectModalOpen(false);
-              setSelectedProject(null);
-            }}
-          />
-
-          {/* Footer */}
-          {activeSection === 'home' && (
-            <footer className="bg-muted border-t border-border py-12">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                  <div className="text-center md:text-left">
-                    <h3 className="text-foreground font-medium">KHALIL SABHA</h3>
-                    <p className="text-muted-foreground text-sm mt-1">UI/UX Designer & Front-end Developer</p>
-                  </div>
-                  <div className="flex items-center space-x-6">
-                    <a
-                      href="mailto:contact@khalilsabha.tech"
-                      className="text-muted-foreground hover:text-primary text-sm transition-colors"
-                    >
-                      contact@khalilsabha.tech
-                    </a>
-                    <a
-                      href="https://linkedin.com/in/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary text-sm transition-colors"
-                    >
-                      LinkedIn
-                    </a>
-                    <a
-                      href="https://github.com/khalilxorder"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary text-sm transition-colors"
-                    >
-                      GitHub
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-8 pt-8 border-t border-border text-center">
-                  <p className="text-muted-foreground text-sm">
-                    © 2024 KHALIL SABHA. Designed and built with passion for great user experiences.
-                  </p>
-                </div>
-              </div>
-            </footer>
-          )}
-          {/* AI Console - Floating Terminal */}
-          <AIConsole />
-        </motion.div>
-      </AnalogGlitch>
-    </ThemeProvider>
+      <div className="projects-page">
+        <section id="projects" className="projects-grid" aria-label="Projects">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </section>
+      </div>
+    </main>
   );
 }
