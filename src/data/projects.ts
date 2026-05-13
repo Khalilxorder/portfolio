@@ -1,4 +1,3 @@
-import yourFoodNowCover from '../assets/ba43e88e09ac6aff01142c7d0523560a2d8c83d8.png';
 import exploreCover from '../assets/project-shots/explore-cover.svg';
 
 export interface Project {
@@ -58,13 +57,5 @@ export const projects: Project[] = [
     image: 'https://image.thum.io/get/width/1280/https://frontend-psi-three-13.vercel.app/',
     year: '2024',
     url: 'https://frontend-psi-three-13.vercel.app/',
-  },
-  {
-    id: 'your-food-now',
-    title: 'Your Food Now',
-    description: 'A delivery flow centered on decision speed, order confidence, and reduced friction.',
-    image: yourFoodNowCover,
-    year: '2024',
-    url: yourFoodNowCover,
   },
 ];
