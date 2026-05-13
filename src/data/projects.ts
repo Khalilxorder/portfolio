@@ -1,5 +1,7 @@
 import exploreCover from '../assets/project-shots/explore-cover.svg';
 import bigFivePredictionCover from '../assets/project-shots/big-five-prediction.svg';
+import studentApartmentAiCover from '../assets/project-shots/student-apartment-ai.svg';
+import csaiVoiceAgentCover from '../assets/project-shots/csai-voice-agent.svg';
 
 export interface Project {
   id: string;
@@ -18,6 +20,14 @@ export const projects: Project[] = [
     image: exploreCover,
     year: '2026',
     url: 'https://drive.google.com/file/d/13UjPc3w_g16dc4H9oA_agPB3lgiH1XJp',
+  },
+  {
+    id: 'csai-voice-agent',
+    title: 'CSAI Voice Agent',
+    description: 'A multilingual customer service voice agent with model-fit routing and monthly cost planning.',
+    image: csaiVoiceAgentCover,
+    year: '2026',
+    url: '/csai.html',
   },
   {
     id: 'scholarship-search',
@@ -46,8 +56,8 @@ export const projects: Project[] = [
   {
     id: 'student-apartment',
     title: 'Student Apartment',
-    description: 'A student housing search interface built around chat, filters, and availability.',
-    image: 'https://api.microlink.io/?url=https://student-apartment-seven.vercel.app&screenshot=true&meta=false&embed=screenshot.url',
+    description: 'AI-assisted owner uploads and student matching from video, photos, categories, and natural language.',
+    image: studentApartmentAiCover,
     year: '2024',
     url: 'https://student-apartment-seven.vercel.app/',
   },
