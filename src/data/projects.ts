@@ -1,4 +1,5 @@
 import exploreCover from '../assets/project-shots/explore-cover.svg';
+import bigFivePredictionCover from '../assets/project-shots/big-five-prediction.svg';
 
 export interface Project {
   id: string;
@@ -33,6 +34,14 @@ export const projects: Project[] = [
     image: 'https://v1.screenshot.11ty.dev/https%3A%2F%2Fmy-bigfive-app.vercel.app/opengraph/_7yf',
     year: '2024',
     url: 'https://my-bigfive-app.vercel.app/',
+  },
+  {
+    id: 'big-five-prediction',
+    title: 'Big Five Prediction',
+    description: 'The thesis project: predicting Big Five trait signals from written text with interpretable NLP.',
+    image: bigFivePredictionCover,
+    year: '2026',
+    url: 'https://github.com/Khalilxorder/bigfive',
   },
   {
     id: 'student-apartment',
