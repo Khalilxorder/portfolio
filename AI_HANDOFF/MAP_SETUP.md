@@ -21,6 +21,19 @@ It is protected by one password, reads and writes projects to Supabase, uploads 
 
 ### 1. Supabase
 
+Status: done on 2026-05-15.
+
+- Project name: `portfolio-map`
+- Project ref: `acqehblkfepngdomdoit`
+- Region: `eu-central-1`
+- Project URL: `https://acqehblkfepngdomdoit.supabase.co`
+- Postgres: 17
+- Schema applied: `portfolio_map_schema`
+- Security fix applied: `portfolio_map_security_fixes`
+- Verified: `projects` table has 8 rows, RLS is enabled, anon can read 8 published rows, Storage has a public `project-images` bucket, security/performance advisors return no lints.
+
+If this ever needs to be recreated:
+
 1. Create a Supabase project at https://supabase.com.
 2. Open the SQL editor.
 3. Run all of `portfolio/supabase/schema.sql`.
@@ -32,7 +45,7 @@ In the portfolio Vercel project, add:
 
 | Name | Value | Notes |
 |---|---|---|
-| `SUPABASE_URL` | Supabase project URL | Server-only |
+| `SUPABASE_URL` | `https://acqehblkfepngdomdoit.supabase.co` | Server-only |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | Server-only, never expose |
 | `MAP_PASSWORD` | Your private `/map` password | Username can be anything |
 | `GITHUB_TOKEN` | GitHub token | Fine-grained token is best |
