@@ -20,6 +20,8 @@ create index if not exists projects_category_position_idx
 
 alter table projects enable row level security;
 
+grant select on table projects to anon, authenticated;
+
 -- Public anon clients can only read published projects.
 -- The /map editor goes through Vercel functions using the service-role key,
 -- which bypasses RLS, so no write policy is needed here.
@@ -27,7 +29,9 @@ drop policy if exists "anon read published" on projects;
 create policy "anon read published" on projects
   for select using (published = true);
 
-create or replace function set_updated_at() returns trigger as $$
+create or replace function set_updated_at() returns trigger
+set search_path = public
+as $$
 begin
   new.updated_at = now();
   return new;
@@ -45,8 +49,6 @@ insert into storage.buckets (id, name, public)
   on conflict (id) do nothing;
 
 drop policy if exists "public read project images" on storage.objects;
-create policy "public read project images" on storage.objects
-  for select using (bucket_id = 'project-images');
 
 -- Seed: copy the current portfolio list. Safe to run repeatedly.
 insert into projects (id, title, description, year, url, category, published, position) values
