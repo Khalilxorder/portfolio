@@ -3,9 +3,11 @@ import bigFivePredictionCover from '../assets/project-shots/big-five-prediction.
 import studentApartmentAiCover from '../assets/project-shots/student-apartment-ai.svg';
 import csaiVoiceAgentCover from '../assets/project-shots/csai-voice-agent.svg';
 import scholarshipSearchCover from '../assets/project-shots/scholarship-search.svg';
-import bigFiveAssessmentCover from '../assets/project-shots/big-five-assessment.svg';
+import selfCover from '../assets/project-shots/self-cover.svg';
 import memoryTestCover from '../assets/project-shots/memory-test.svg';
 import binaryDeconstructorCover from '../assets/project-shots/binary-deconstructor.svg';
+
+export type ProjectCategory = 'scientific' | 'commercial';
 
 export interface Project {
   id: string;
@@ -14,41 +16,10 @@ export interface Project {
   image: string;
   year: string;
   url: string;
+  category: ProjectCategory;
 }
 
 export const projects: Project[] = [
-  {
-    id: 'explore',
-    title: 'eXplore',
-    description: 'Priority alerts and a focused feed for important AI releases and Iran/Qatar developments.',
-    image: exploreCover,
-    year: '2026',
-    url: '/explore.html',
-  },
-  {
-    id: 'csai-voice-agent',
-    title: 'CSAI Voice Agent',
-    description: 'A multilingual customer service voice agent with model-fit routing and monthly cost planning.',
-    image: csaiVoiceAgentCover,
-    year: '2026',
-    url: '/csai.html',
-  },
-  {
-    id: 'scholarship-search',
-    title: 'Scholarship Search Engine',
-    description: 'A focused search workspace for discovering scholarships and comparing fit quickly.',
-    image: scholarshipSearchCover,
-    year: '2024',
-    url: 'https://scholarship-search.vercel.app/',
-  },
-  {
-    id: 'big-five-assessment',
-    title: 'Big Five AI Assessment',
-    description: 'A personality assessment with rich visual framing and readable trait feedback.',
-    image: bigFiveAssessmentCover,
-    year: '2024',
-    url: 'https://my-bigfive-app.vercel.app/',
-  },
   {
     id: 'big-five-prediction',
     title: 'Big Five Prediction',
@@ -56,14 +27,16 @@ export const projects: Project[] = [
     image: bigFivePredictionCover,
     year: '2026',
     url: 'https://github.com/Khalilxorder/bigfive',
+    category: 'scientific',
   },
   {
-    id: 'student-apartment',
-    title: 'Student Apartment',
-    description: 'AI-assisted owner uploads and student matching from video, photos, categories, and natural language.',
-    image: studentApartmentAiCover,
+    id: 'self',
+    title: 'SELF',
+    description: 'A self-discovery platform with Big Five, cognitive, and narrative assessments - moving toward psyche mapping and life-event reorganization against ideal capacity.',
+    image: selfCover,
     year: '2024',
-    url: '/student-apartment.html',
+    url: 'https://my-bigfive-app.vercel.app/',
+    category: 'scientific',
   },
   {
     id: 'working-memory-test',
@@ -72,13 +45,56 @@ export const projects: Project[] = [
     image: memoryTestCover,
     year: '2024',
     url: 'https://w-mtest.vercel.app/',
+    category: 'scientific',
   },
   {
     id: 'binary-deconstructor',
     title: 'Binary Deconstructor',
-    description: 'An audio deconstruction tool with upload flow, AI extraction, and dark visual depth.',
+    description: 'Audio deconstruction: stems, MIDI, tempo, chords. Live demo preview; full processing runs against a local backend.',
     image: binaryDeconstructorCover,
     year: '2024',
     url: 'https://frontend-psi-three-13.vercel.app/',
+    category: 'scientific',
+  },
+  {
+    id: 'explore',
+    title: 'eXplore',
+    description: 'Priority alerts and a focused feed for important AI releases and Iran/Qatar developments.',
+    image: exploreCover,
+    year: '2026',
+    url: '/explore.html',
+    category: 'commercial',
+  },
+  {
+    id: 'csai-voice-agent',
+    title: 'CSAI Voice Agent',
+    description: 'A multilingual customer service voice agent with model-fit routing and monthly cost planning.',
+    image: csaiVoiceAgentCover,
+    year: '2026',
+    url: '/csai.html',
+    category: 'commercial',
+  },
+  {
+    id: 'scholarship-search',
+    title: 'Scholarship Search Engine',
+    description: 'A focused search workspace for discovering scholarships and comparing fit quickly.',
+    image: scholarshipSearchCover,
+    year: '2024',
+    url: 'https://scholarship-search.vercel.app/',
+    category: 'commercial',
+  },
+  {
+    id: 'student-apartment',
+    title: 'Student Apartment',
+    description: 'AI-assisted owner uploads and student matching from video, photos, categories, and natural language.',
+    image: studentApartmentAiCover,
+    year: '2024',
+    url: '/student-apartment.html',
+    category: 'commercial',
   },
 ];
+
+export const categoryLabels: Record<ProjectCategory, string> = {
+  scientific: 'Scientific',
+  commercial: 'Commercial',
+};
