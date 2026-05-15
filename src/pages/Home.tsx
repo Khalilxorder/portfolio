@@ -63,7 +63,10 @@ export default function Home() {
       <section className="identity" aria-label="Khalil Sabha">
         <img src={profilePhoto} alt="" />
         <h1>Khalil Sabha</h1>
-        <p>BA Psychology, ELTE - AI tools for psychological assessment, cognition, and research workflows.</p>
+        <p>
+          BA Psychology, ELTE - AI tools for psychological assessment, cognition, and research workflows.{' '}
+          <a href="/labs.html" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>For labs</a>
+        </p>
       </section>
 
       <div className="projects-page">
