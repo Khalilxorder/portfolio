@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Khalil Sabha - psychology student building research-ready AI and assessment tools for labs.">
+    <title>Khalil Sabha | For Labs</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --page: #f5f5f7;
+        --surface: #ffffff;
+        --surface-soft: #fbfbfd;
+        --text: #1d1d1f;
+        --soft: #6e6e73;
+        --line: rgba(0, 0, 0, 0.1);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        min-width: 320px;
+        margin: 0;
+        background: var(--page);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; text-decoration: none; }
+      main {
+        width: min(940px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0 88px;
+      }
+      .hero {
+        display: grid;
+        gap: 16px;
+        max-width: 760px;
+        margin: 0 auto 52px;
+        text-align: center;
+      }
+      .back,
+      .kicker {
+        margin: 0;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 620;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(34px, 6vw, 62px);
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+      .hero p {
+        max-width: 640px;
+        margin: 0 auto;
+        color: var(--soft);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .actions a {
+        padding: 10px 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface);
+        font-size: 13px;
+        font-weight: 650;
+      }
+      section {
+        display: grid;
+        gap: 18px;
+        padding: 34px 0;
+        border-top: 1px solid var(--line);
+      }
+      h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 720;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      ul {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--soft);
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      li::before {
+        position: absolute;
+        left: 0;
+        color: var(--text);
+        content: "-";
+      }
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+      article {
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      article h3 {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.2;
+      }
+      article p {
+        margin: 0;
+        color: var(--soft);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      article a {
+        width: fit-content;
+        font-size: 13px;
+        font-weight: 650;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .tags li {
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-soft);
+        font-size: 13px;
+        line-height: 1.2;
+      }
+      .tags li::before { content: ""; }
+      .note {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface-soft);
+      }
+      .note p {
+        margin: 0;
+        color: var(--soft);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --page: #050506;
+          --surface: #171719;
+          --surface-soft: #202023;
+          --text: #f5f5f7;
+          --soft: #a1a1aa;
+          --line: rgba(255, 255, 255, 0.12);
+        }
+      }
+      @media (max-width: 760px) {
+        main { padding-top: 42px; }
+        .projects { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <a class="back" href="/">Khalil Sabha</a>
+        <p class="kicker">Research Assistant / Student Collaborator</p>
+        <h1>Psychology student building research-ready AI and assessment tools.</h1>
+        <p>
+          I am a BA Psychology student at ELTE focused on cognition,
+          neuropsychology, psychological assessment, and practical AI systems
+          for research workflows.
+        </p>
+        <div class="actions">
+          <a href="mailto:khalilxcommunication@gmail.com">Email me</a>
+          <a href="/">Portfolio</a>
+        </div>
+      </header>
+
+      <section>
+        <h2>How I Can Help A Lab</h2>
+        <ul>
+          <li>Build browser-based experiments, questionnaires, and assessment tools.</li>
+          <li>Support literature organization, screening, extraction, and research mapping.</li>
+          <li>Clean data, prepare analysis files, and help with Python/SPSS workflows.</li>
+          <li>Prototype dashboards for study tracking, participant flow, and results review.</li>
+          <li>Use AI carefully for text analysis, coding support, summarization, and workflow acceleration.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Most Relevant Projects</h2>
+        <div class="projects">
+          <article>
+            <h3>Big Five Prediction</h3>
+            <p>Text-based personality signal modeling, psychometrics, NLP, and interpretable AI.</p>
+            <a href="https://github.com/Khalilxorder/bigfive">Open project</a>
+          </article>
+          <article>
+            <h3>SELF</h3>
+            <p>Non-clinical assessment design for Big Five, cognitive, and narrative self-reflection.</p>
+            <a href="https://my-bigfive-app.vercel.app/">Open project</a>
+          </article>
+          <article>
+            <h3>Neural Memory Test</h3>
+            <p>Browser-based working-memory testing with repeatable trials and simple scoring.</p>
+            <a href="https://w-mtest.vercel.app/">Open project</a>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Strongest Fit</h2>
+        <ul class="tags">
+          <li>Cognitive aging, memory, and neurocognitive change</li>
+          <li>Neuropsychology and emotion-cognition interaction</li>
+          <li>Computational psychiatry and digital mental health</li>
+          <li>Psychometrics, assessment design, and self-report tools</li>
+          <li>AI, misinformation, cognition, and online behavior</li>
+        </ul>
+      </section>
+
+      <section class="note">
+        <h2>Ethics Note</h2>
+        <p>
+          I frame SELF and related assessment work as non-clinical reflection
+          and research-interface design. I do not present these tools as
+          diagnosis, treatment, hiring, or high-stakes prediction systems.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
